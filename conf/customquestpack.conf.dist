@@ -26,7 +26,7 @@ CQP.Enable = 1
 #                     0 - Disabled
 #
 #	CQP.Pollution: Cleaning up the Pollution quest
-#	CQP.Sewer: 	   Sewer Creatures quest
+#	CQP.Sewer: 	   Sewer Cleaning quest
 
 CQP.Pollution = 1
 CQP.Sewer = 1
