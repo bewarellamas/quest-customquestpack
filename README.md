@@ -15,7 +15,7 @@ Check the QuestInfo.md file for information on specific quests.
 There should be no need to place NPCs after install. They should be placed when the server loads.
 
 ### Credits
-[Bewarellamas (me)](https://github.com/bewarellamas): Quest design, coding, and testing
-[AzerothCore module creators](https://www.azerothcore.org/catalogue.html): Example code and inspiration
-[Wow.tools](https://wow.tools): DBC information
-[Wowhead.com](https://wowhead.com): Information and IDs in many areas
+* [Bewarellamas (me)](https://github.com/bewarellamas): Quest design, coding, and testing
+* [AzerothCore module creators](https://www.azerothcore.org/catalogue.html): Example code and inspiration
+* [Wow.tools](https://wow.tools): DBC information
+* [Wowhead.com](https://wowhead.com): Information and IDs in many areas
