@@ -75,133 +75,16 @@ public:
     {
         //config reads
         ENABLE_MODULE = sConfigMgr->GetOption<bool>("CQP.Enable", true);
-        Q_POLLUTION = sConfigMgr->GetOption<bool>("CQP.Pollution", true);
-        Q_SEWER = sConfigMgr->GetOption<bool>("CQP.Sewer", true);
-        
-
-        //Check and load spawns for quest NPCs and Objects
+        //Q_POLLUTION = sConfigMgr->GetOption<bool>("CQP.Pollution", true);
+        //Q_SEWER = sConfigMgr->GetOption<bool>("CQP.Sewer", true);
         
 
     }
 
     void OnStartup() override
     {
-        LoadQuestSpawns();
         
     }
-
-    void LoadQuestSpawns()
-    {
-        
-        //Cleaning the Pollution Quest
-        if (Q_POLLUTION)
-        {
-           creatureId = 200003;
-           map = sMapMgr->FindMap(530, 0);
-           pos = new Position(-200.818, 5560.27, 24.0272, 4.5);
-           AddQuestNPCs(creatureId, map, pos);
-        }
-        else
-        {
-            RemoveQuestNPCs(200003);
-        }
-
-        //Sewer Cretures Quest
-        if (Q_SEWER)
-        {
-            creatureId = 200004;
-            map = sMapMgr->FindMap(571, 0);
-            pos = new Position(5649.42, 861.011, 571.393, 4);
-            AddQuestNPCs(creatureId, map, pos);
-            
-            creatureId = 3581;
-            map = sMapMgr->FindMap(0, 0);
-            pos = new Position(1759.35, 455.367, -69.8927, 3.22);
-            AddQuestNPCs(creatureId, map, pos);
-
-
-        }
-        else
-        {
-            RemoveQuestNPCs(200004);
-            //Not removing extra sewer beast since it really doesn't matter.
-        }
-        
-        
-    }
-
-
-    void AddQuestNPCs(uint32 creatureId, Map* map, Position* pos)
-    {
-        QueryResult result;
-        result = WorldDatabase.Query("SELECT guid, position_x, position_y, position_z, map FROM creature WHERE id1='{}' OR id2='{}' OR id3='{}'",
-            uint32(creatureId), uint32(creatureId), uint32(creatureId));
-        if (result)
-        {
-            do
-            {
-                Field* fields = result->Fetch();
-                ObjectGuid::LowType guid = fields[0].Get<uint32>();
-                float x = fields[1].Get<float>();
-                float y = fields[2].Get<float>();
-                float z = fields[3].Get<float>();
-                uint16 mapId = fields[4].Get<uint16>();
-
-                if (!mapId == map->GetId())
-                {
-                    Creature* creature = new Creature();
-                    creature->Create(map->GenerateLowGuid<HighGuid::Unit>(), map, 255, 200003, 0, pos->GetPositionX(), pos->GetPositionY(), pos->GetPositionZ(), pos->GetOrientation());
-                    creature->SaveToDB(map->GetId(), (1 << map->GetSpawnMode()), 255);
-                    ObjectGuid::LowType spawnId = creature->GetSpawnId();
-                    creature->CleanupsBeforeDelete();
-                    delete creature;
-                    creature = new Creature();
-                    creature->LoadCreatureFromDB(spawnId, map, true, false, true);
-                    sObjectMgr->AddCreatureToGrid(spawnId, sObjectMgr->GetCreatureData(spawnId));
-                }
-               
-            } while (result->NextRow());
-        }
-        else
-        {
-            Creature* creature = new Creature();
-            creature->Create(map->GenerateLowGuid<HighGuid::Unit>(), map, 255, creatureId, 0, pos->GetPositionX(), pos->GetPositionY(), pos->GetPositionZ(), pos->GetOrientation());
-            creature->SaveToDB(map->GetId(), (1 << map->GetSpawnMode()), 255);
-            ObjectGuid::LowType spawnId = creature->GetSpawnId();
-            creature->CleanupsBeforeDelete();
-            delete creature;
-            creature = new Creature();
-            creature->LoadCreatureFromDB(spawnId, map, true, false, true);
-            sObjectMgr->AddCreatureToGrid(spawnId, sObjectMgr->GetCreatureData(spawnId));
-        }
-    }
-
-    void RemoveQuestNPCs(uint32 creatureId)
-    {
-        QueryResult result;
-        result = WorldDatabase.Query("SELECT guid FROM creature WHERE id1='{}' OR id2='{}' OR id3='{}'",
-            uint32(creatureId), uint32(creatureId), uint32(creatureId));
-        if (result)
-        {
-            do
-            {
-                Field* fields = result->Fetch();
-                ObjectGuid::LowType guid = fields[0].Get<uint32>();
-                float x = fields[1].Get<float>();
-                float y = fields[2].Get<float>();
-                float z = fields[3].Get<float>();
-                uint16 mapId = fields[4].Get<uint16>();
-
-                sObjectMgr->RemoveCreatureFromGrid(guid, sObjectMgr->GetCreatureData(guid));
-                
-
-
-            } while (result->NextRow());
-        }
-
-
-    }
-
 
 };
 

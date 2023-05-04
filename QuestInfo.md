@@ -20,4 +20,4 @@ This document outlines the quests provided by the pack and offers soem basic inf
 * Min Level: 70
 * Quest Start: Finlow Dinglescraper (Sewer Pipe entrance - Dalaran)
 * Overview: Kill Segacedi in Dalaran and kill a Sewer Beast.
-* Notes: Sewer beast is a rare spawn in Stormwin. I added another one in Undercity behind the Military Ward. As a note this is not automatically removed when the quest is disabled.
+* Notes: Sewer beast is a rare spawn in Stormwind. I added another one in Undercity behind the Military Ward.
